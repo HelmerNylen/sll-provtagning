@@ -15,6 +15,12 @@
 	border: 1px solid black;
 	border-radius: 1em;
 	padding: 1em;
-	padding-top: 0;
 	margin: 2em;
+}
+.test .name {
+	font-weight: bold;
+	padding-bottom: 1em;
+}
+.test.alert .name {
+	color: red;
 }

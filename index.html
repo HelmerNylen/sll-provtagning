@@ -16,16 +16,21 @@
 <body>
 	<div id="inputs">
 		<div>
-			<label for="age">Ålder</label>
-			<input id="age" type="number" min="0" />
+			<label for="age">Ålder (år)</label>
+			<input id="age" type="number" min="0" placeholder="0" />
 		</div>
 		<div>
 			<label for="gender">Kön</label>
-			<select id="gender">
-				<option value="">Välj kön</option>
-				<option value="male">Man</option>
-				<option value="female">Kvinna</option>
-			</select>
+			<div id="gender">
+				<div>
+					<input type="radio" id="male" name="gender" value="male">
+					<label for="male">Man</label>
+				</div>
+				<div>
+					<input type="radio" id="female" name="gender" value="female">
+					<label for="female">Kvinna</label>
+				</div>
+			</div>
 		</div>
 		<div>
 			<label for="country">Ursprungsland</label>
@@ -33,10 +38,42 @@
 				<option value="">Välj land</option>
 			</select>
 		</div>
+		<div>
+			<label for="tbc_risk">Riskmiljö för Tuberkulos</label>
+			<div id="tbc_risk">
+				<div>
+					<input type="radio" id="risk_yes" name="tbc_risk" value="risk_yes">
+					<label for="risk_yes">Ja</label>
+				</div>
+				<div>
+					<input type="radio" id="risk_no" name="tbc_risk" value="risk_no">
+					<label for="risk_no">Nej</label>
+				</div>
+			</div>
+			<div class="risk_explanation">
+				Till riskmiljöer räknas exempelvis flyktingläger, krigssituationer, eller då en familjemedlem har tuberkulos
+			</div>
+		</div>
 		<button id="submitButton">Hitta tester</button>
 	</div>
+	<div id="additionalQuestions" style="display: none;">
+		<div class="question" style="display: none;">
+			<div class="prompt">Fråga</div>
+			<div class="info">Extra info om frågan</div>
+			<div class="answers">
+				<div>
+					<input type="radio" id="x" name="q" value="a">
+					<label for="x">Svar</label>
+				</div>
+			</div>
+		</div>
+		<button id="submitQuestions">Visa resultat</button>
+	</div>
 	<div id="tests">
-
+		<div class="test" style="display: none;">
+			<div class="name">Namn på test</div>
+			<div class="purpose">Syfte</div>
+		</div>
 	</div>
 	<script type="text/javascript">
 		window.onload = () => {
