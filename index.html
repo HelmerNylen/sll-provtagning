@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Provtagning av nyanlända</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="theme-color" content="#002d5a">
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<script type="text/javascript" src="js/controller.js"></script>
+	<script type="text/javascript" src="js/countries.js"></script>
+	<script type="text/javascript" src="js/test_conditions.js"></script>
+</head>
+<body>
+	<div id="inputs">
+		<div>
+			<label for="age">Ålder</label>
+			<input id="age" type="number" min="0" />
+		</div>
+		<div>
+			<label for="gender">Kön</label>
+			<select id="gender">
+				<option value="">Välj kön</option>
+				<option value="male">Man</option>
+				<option value="female">Kvinna</option>
+			</select>
+		</div>
+		<div>
+			<label for="country">Ursprungsland</label>
+			<select id="country">
+				<option value="">Välj land</option>
+			</select>
+		</div>
+		<button id="submitButton">Hitta tester</button>
+	</div>
+	<div id="tests">
+
+	</div>
+	<script type="text/javascript">
+		window.onload = () => {
+			Controller.begin();
+		};
+	</script>
+	<br />
+</body>
+</html>
+
