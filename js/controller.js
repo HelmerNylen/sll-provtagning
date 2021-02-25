@@ -75,8 +75,9 @@ class Controller {
 			if (undecidedTestInd !== -1) {
 				const qText = additionalQuestionsDiv.getElementsByClassName("question")
 					.item(Controller.questionIndices[undecidedTestInd] + 1)
+					.getElementsByClassName("prompt").item(0)
 					.textContent;
-				alert(`Du har inte svarat på frågan "${qText}"`)
+				alert(`Du har inte svarat på frågan "${qText.trim()}"`)
 			}
 			else {
 				// Filtrera ut tomma element

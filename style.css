@@ -1,14 +1,21 @@
 #inputs {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
+	flex-wrap: wrap;
 }
 
 #inputs > div {
-	min-height: 4em;
+	margin: 1em;
+	padding: 1em;
+	max-width: 12em;
 }
 #inputs > div > label {
 	display: block;
+}
+#inputs > div > input[type=number] {
+	width: 4em;
+}
+.risk_explanation {
+	margin-top: 1em;
 }
 
 .test {
