@@ -216,7 +216,14 @@ const test_conditions = [
 		"Nej": {}
 	},
 	{
-		"age": [15, 45],
+		"age": [21, 45],
+		"gender": female,
+		"country": any,
+		"name": "Rubella IgG-antikroppar",
+		"purpose": "Immunitet mot röda hund (rubella)"
+	},
+	{
+		"age": [15, 20],
 		"gender": female,
 		"country": any,
 		"question": "Erbjuds personen MPR-vaccination via elevhälsan?",
@@ -239,12 +246,25 @@ const test_conditions = [
 		"country": tbc_list,
 		"question": "Är barnet vaccinerat med BCG?",
 		"Ja": {
-			"name": "IGRA (Quantiferon)",
-			"purpose": "Screening för latent tuberkulos"
+			"name": "IGRA (Quantiferon), alternativt PPD om IGRA inte kan genomföras",
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
 		},
 		"Nej": {
 			"name": "PPD",
-			"purpose": "Screening för latent tuberkulos"
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
+		},
+		"Vet ej": {
+			"name": "PPD",
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
 		}
 	},
 	{
@@ -254,12 +274,25 @@ const test_conditions = [
 		"tbc_risk": true,
 		"question": "Är barnet vaccinerat med BCG?",
 		"Ja": {
-			"name": "IGRA (Quantiferon)",
-			"purpose": "Screening för latent tuberkulos"
+			"name": "IGRA (Quantiferon), alternativt PPD om IGRA inte kan genomföras",
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
 		},
 		"Nej": {
 			"name": "PPD",
-			"purpose": "Screening för latent tuberkulos"
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
+		},
+		"Vet ej": {
+			"name": "PPD",
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
 		}
 	},
 	{
@@ -267,7 +300,10 @@ const test_conditions = [
 		"gender": any,
 		"country": tbc_list,
 		"name": "IGRA (Quantiferon)",
-		"purpose": "Screening för latent tuberkulos"
+		"purpose": `
+			Screening för latent tuberkulos
+			Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+		`
 	},
 	{
 		"age": [2, 35],
@@ -275,7 +311,10 @@ const test_conditions = [
 		"country": any,
 		"tbc_risk": true,
 		"name": "IGRA (Quantiferon)",
-		"purpose": "Screening för latent tuberkulos"
+		"purpose": `
+			Screening för latent tuberkulos
+			Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+		`
 	},
 	{
 		"age": [36, any],
@@ -299,7 +338,10 @@ const test_conditions = [
 		`,
 		"Ja": {
 			"name": "IGRA (Quantiferon)",
-			"purpose": "Screening för latent tuberkulos"
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+			`
 		},
 		"Nej": {
 			"name": "Lungröntgen",
@@ -332,7 +374,10 @@ const test_conditions = [
 		`,
 		"Ja": {
 			"name": "IGRA (Quantiferon)",
-			"purpose": "Screening för latent tuberkulos"
+			"purpose": `
+				Screening för latent tuberkulos
+				Obs! Tag omedelbar kontakt med infektions- eller barnklinik vid misstanke om aktiv tuberkulos.
+		`
 		},
 		"Nej": {
 			"name": "Lungröntgen",

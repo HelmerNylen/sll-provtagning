@@ -35,7 +35,7 @@ class Controller {
 			Controller.currentTests = null;
 			Controller.questionIndices = null;
 
-			let age = Math.round(document.getElementById("age").value * 1);
+			let age = Math.floor(document.getElementById("age").value * 1);
 			document.getElementById("age").value = age;
 
 			let gender = document.getElementById("male").checked ? male : (document.getElementById("female").checked ? female : any);

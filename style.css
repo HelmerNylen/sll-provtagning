@@ -5,7 +5,7 @@
 
 #inputs > div {
 	margin: 1em;
-	padding: 1em;
+	padding: 0.5em;
 	max-width: 12em;
 }
 #inputs > div > label {
@@ -18,16 +18,21 @@
 	margin-top: 1em;
 }
 
+.question {
+	margin-bottom: 1em;
+	margin-left: 1.5em;
+}
+
 .test {
 	border: 1px solid black;
 	border-radius: 1em;
 	padding: 1em;
-	margin: 2em;
+	margin: 1.5em;
 }
 .test .name {
 	font-weight: bold;
 	padding-bottom: 1em;
 }
-.test.alert .name {
+/* .test.alert .name {
 	color: red;
-}
+} */

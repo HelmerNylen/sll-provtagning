@@ -18,7 +18,7 @@
 	<div id="inputs">
 		<div>
 			<label for="age">Ålder (år)</label>
-			<input id="age" type="number" min="0" placeholder="0" />
+			<input id="age" type="number" min="0" autofocus />
 		</div>
 		<div>
 			<label for="gender">Kön</label>
@@ -52,7 +52,7 @@
 				</div>
 			</div>
 			<div class="risk_explanation">
-				Till riskmiljöer räknas exempelvis flyktingläger, krigssituationer, eller då en familjemedlem har tuberkulos
+				Till riskmiljö räknas t.ex. fängelse, flyktingläger eller att familjemedlem haft tuberkulos
 			</div>
 		</div>
 		<div>
@@ -60,9 +60,7 @@
 		</div>
 	</div>
 	<div id="additionalQuestions" style="display: none;">
-		<h3>
-			Följdfrågor
-		</h3>
+		<h3>Följdfrågor</h3>
 		<div class="question" style="display: none;">
 			<div class="prompt">Fråga</div>
 			<div class="info">Extra info om frågan</div>
@@ -76,9 +74,7 @@
 		<button id="submitQuestions">Visa resultat</button>
 	</div>
 	<div id="tests">
-		<h3>
-			Prover att ta
-		</h3>
+		<h3>Prover att ta</h3>
 		<div class="test" style="display: none;">
 			<div class="name">Namn på prov</div>
 			<div class="purpose">Syfte</div>
