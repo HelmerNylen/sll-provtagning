@@ -1,21 +1,47 @@
-#inputs {
-	display: flex;
-	flex-wrap: wrap;
+body {
+	font-family: Verdana, Georgia, 'Times New Roman', Times, serif;
+	background-color: #f5f2ed;
 }
 
-#inputs > div {
+button {
+	background-color: #034ea2;
+	border: none;
+	color: white;
+	padding: 1ex;
+	font-size: large;
+}
+button:disabled {
+	background-color: #a79d96;
+	border: none;
+	color: white;
+	padding: 1ex;
+	font-size: large;
+}
+
+.pair {
+	display: flex;
+}
+.pair > div {
+	flex: 1;
+}
+
+.inputContainer {
 	margin: 1em;
 	padding: 0.5em;
-	max-width: 12em;
 }
-#inputs > div > label {
+.inputContainer > label {
 	display: block;
 }
-#inputs > div > input[type=number] {
+.inputContainer > input[type=number] {
 	width: 4em;
 }
 .risk_explanation {
 	margin-top: 1em;
+}
+.buttonContainer {
+	margin: 1em;
+	padding: 0.5em;
+	text-align: center;
 }
 
 .question {
@@ -32,6 +58,14 @@
 .test .name {
 	font-weight: bold;
 	padding-bottom: 1em;
+}
+.miniInfo {
+	color: #685c53;
+	text-align: center;
+	font-size: small;
+}
+.hide {
+	display: none !important;
 }
 /* .test.alert .name {
 	color: red;

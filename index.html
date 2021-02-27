@@ -14,54 +14,59 @@
 	<script type="text/javascript" src="js/test_conditions.js"></script>
 </head>
 <body>
+	<h2>Prover som ingår i en hälsoundersökning</h2>
 	<h3>Personinfo</h3>
 	<div id="inputs">
-		<div>
-			<label for="age">Ålder (år)</label>
-			<input id="age" type="number" min="0" autofocus />
-		</div>
-		<div>
-			<label for="gender">Kön</label>
-			<div id="gender">
-				<div>
-					<input type="radio" id="male" name="gender" value="male">
-					<label for="male">Man</label>
-				</div>
-				<div>
-					<input type="radio" id="female" name="gender" value="female">
-					<label for="female">Kvinna</label>
+		<div class="pair">
+			<div class="inputContainer">
+				<label for="age">Ålder (år)</label>
+				<input id="age" type="number" min="0" autofocus />
+			</div>
+			<div class="inputContainer">
+				<label for="gender">Kön</label>
+				<div id="gender">
+					<div>
+						<input type="radio" id="male" name="gender" value="male">
+						<label for="male">Man</label>
+					</div>
+					<div>
+						<input type="radio" id="female" name="gender" value="female">
+						<label for="female">Kvinna</label>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div>
-			<label for="country">Ursprungsland</label>
-			<select id="country">
-				<option value="">Välj land</option>
-			</select>
-		</div>
-		<div>
-			<label for="tbc_risk">Riskmiljö för Tuberkulos</label>
-			<div id="tbc_risk">
-				<div>
-					<input type="radio" id="risk_yes" name="tbc_risk" value="risk_yes">
-					<label for="risk_yes">Ja</label>
+		<div class="pair">
+			<div class="inputContainer">
+				<label for="tbc_risk">Riskmiljö för Tuberkulos</label>
+				<div id="tbc_risk">
+					<div>
+						<input type="radio" id="risk_yes" name="tbc_risk" value="risk_yes">
+						<label for="risk_yes">Ja</label>
+					</div>
+					<div>
+						<input type="radio" id="risk_no" name="tbc_risk" value="risk_no">
+						<label for="risk_no">Nej</label>
+					</div>
 				</div>
-				<div>
-					<input type="radio" id="risk_no" name="tbc_risk" value="risk_no">
-					<label for="risk_no">Nej</label>
+				<div class="risk_explanation">
+					Till riskmiljö räknas t.ex. fängelse, flyktingläger eller att familjemedlem haft tuberkulos
 				</div>
 			</div>
-			<div class="risk_explanation">
-				Till riskmiljö räknas t.ex. fängelse, flyktingläger eller att familjemedlem haft tuberkulos
+			<div class="inputContainer">
+				<label for="country">Ursprungsland</label>
+				<select id="country">
+					<option value="">Välj land</option>
+				</select>
 			</div>
 		</div>
-		<div>
-			<button id="submitButton">Hitta tester</button>
+		<div class="buttonContainer">
+			<button id="submitButton">Nästa</button>
 		</div>
 	</div>
-	<div id="additionalQuestions" style="display: none;">
-		<h3>Följdfrågor</h3>
-		<div class="question" style="display: none;">
+	<h3>Följdfrågor</h3>
+	<div id="additionalQuestions">
+		<div class="question hide">
 			<div class="prompt">Fråga</div>
 			<div class="info">Extra info om frågan</div>
 			<div class="answers">
@@ -71,14 +76,25 @@
 				</div>
 			</div>
 		</div>
-		<button id="submitQuestions">Visa resultat</button>
 	</div>
+	<div class="miniInfo hide" id="noQuestions">
+		Inga följdfrågor. Tryck på "Visa resultat"!
+	</div>
+	<div class="buttonContainer">
+		<button id="submitQuestions" disabled>Visa resultat</button>
+	</div>
+	<h3>Prover att ta</h3>
 	<div id="tests">
-		<h3>Prover att ta</h3>
-		<div class="test" style="display: none;">
+		<div class="test hide">
 			<div class="name">Namn på prov</div>
 			<div class="purpose">Syfte</div>
 		</div>
+	</div>
+	<div class="miniInfo" id="noTestsYet">
+		Här visas proverna som ska tas
+	</div>
+	<div class="miniInfo hide" id="noTests">
+		Inga prover matchade sökkriterierna
 	</div>
 	<script type="text/javascript">
 		window.onload = () => {

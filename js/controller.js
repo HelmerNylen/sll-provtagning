@@ -58,7 +58,6 @@ class Controller {
 				if (Controller.questionIndices[test_index] === null)
 					return test;
 				else {
-					// + 1 på grund av templaten som göms först
 					const qDiv = additionalQuestionsDiv.getElementsByClassName("question")
 						.item(Controller.questionIndices[test_index] + 1);
 					const aInputs = qDiv.getElementsByTagName("input");
@@ -77,14 +76,25 @@ class Controller {
 					.item(Controller.questionIndices[undecidedTestInd] + 1)
 					.getElementsByClassName("prompt").item(0)
 					.textContent;
-				alert(`Du har inte svarat på frågan "${qText.trim()}"`)
+				alert(`Du har inte svarat på frågan "${qText.trim()}"`);
 			}
 			else {
+				tests = tests.map(t => {
+					let res = {};
+					if (t.hasOwnProperty("alert"))
+						res.alert = t.alert;
+					else {
+						res.name = t.name;
+						res.purpose = t.purpose;
+					}
+					return res;
+				});
 				// Filtrera ut tomma element
 				tests = tests.filter(t => JSON.stringify(t) !== JSON.stringify({}));
 				// Filtrera ut dubletter
 				tests = tests.filter((t1, i) => i === tests.findIndex(t2 => JSON.stringify(t1) === JSON.stringify(t2)));
 				Controller.showTests(tests);
+				document.getElementById("submitQuestions").setAttribute("disabled", true);
 			}
 		});
 	}
@@ -165,13 +175,17 @@ class Controller {
 			additionalQuestionsDiv.removeChild(questionDivs.item(1));
 			
 		if (questions.length === 0) {
-			additionalQuestionsDiv.style = "display: none;";
-			submitQuestionsButton.click();
+			//submitQuestionsButton.click();
+			document.getElementById("noQuestions").classList.remove("hide");
+			submitQuestionsButton.removeAttribute("disabled");
 		}
 		else {
+			document.getElementById("noQuestions").classList.add("hide");
+			submitQuestionsButton.setAttribute("disabled", true);
+
 			questions.forEach((q, qi) => {
 				const qDiv = questionTemplate.cloneNode(true);
-				qDiv.style = "";
+				qDiv.classList.remove("hide");
 				qDiv.id = `q_${qi}`;
 				
 				qDiv.getElementsByClassName("prompt").item(0).textContent = q.prompt;
@@ -191,14 +205,18 @@ class Controller {
 					aInput.id = `q_${qi}_a_${ai}`;
 					aInput.value = `a_${ai}`;
 					const aLabel = aDiv.getElementsByTagName("label").item(0);
-					aLabel.for = `q_${qi}_a_${ai}`;
+					aLabel.setAttribute("for", `q_${qi}_a_${ai}`);
 					aLabel.textContent = a;
 				});
-				
-				additionalQuestionsDiv.insertBefore(qDiv, submitQuestionsButton);
-			});
 
-			additionalQuestionsDiv.style = "";
+				for (const input of qDiv.getElementsByTagName("input"))
+					input.addEventListener("change", e => {
+						if (Controller.allQuestionsAnswered(additionalQuestionsDiv))
+							submitQuestionsButton.removeAttribute("disabled");
+					});
+				
+				additionalQuestionsDiv.appendChild(qDiv);
+			});
 		}
 	}
 
@@ -212,13 +230,15 @@ class Controller {
 		const testDivs = testsDiv.getElementsByClassName("test");
 		const testTemplate = testDivs.item(0);
 
+		document.getElementById("noTestsYet").classList.add("hide");
+
 		while (testDivs.length > 1)
 			testsDiv.removeChild(testDivs.item(1));
 
-		if (tests && tests.length > 0)
+		if (tests && tests.length > 0) {
 			for (const test of tests) {
 				const tDiv = testTemplate.cloneNode(true);
-				tDiv.style = "";
+				tDiv.classList.remove("hide");
 
 				if (test.hasOwnProperty("alert")) {
 					tDiv.classList.add("alert");
@@ -231,6 +251,11 @@ class Controller {
 
 				testsDiv.appendChild(tDiv);
 			}
+		} else if (tests && tests.length === 0) {
+			document.getElementById("noTests").classList.remove("hide");
+		} else {
+			document.getElementById("noTestsYet").classList.remove("hide");
+		}
 	}
 
 	static formatTextBody(text, element) {
@@ -270,5 +295,30 @@ class Controller {
 				}
 			}
 		}
+	}
+
+	static allQuestionsAnswered(additionalQuestionsDiv) {
+		if (!Controller.currentTests || Controller.currentTests.length === 0)
+			return false;
+		
+		for (let questionIndex of Controller.questionIndices) {
+			// + 1 på grund av templaten som göms först
+			const qDiv = additionalQuestionsDiv.getElementsByClassName("question")
+				.item(questionIndex + 1);
+			const aInputs = qDiv.getElementsByTagName("input");
+
+			let wasAnswered = false;
+			for (let ai = 0; ai < aInputs.length; ai++) {
+				if (aInputs.item(ai).checked) {
+					wasAnswered = true;
+					break;
+				}
+			}
+
+			if (!wasAnswered)
+				return false;
+		}
+
+		return true;
 	}
 }
