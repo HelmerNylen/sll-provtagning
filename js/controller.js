@@ -12,12 +12,15 @@ class Controller {
 		const countrySwitch = document.getElementById("country");
 		const countryOptions = [];
 		for (const c of Object.keys(Country).sort()) {
+			// Plocka ut det svenska namnet, om det finns angivet
+			// Är det inte angivet så används fältets identifier
 			let name = Country[c].hasOwnProperty("se") ? Country[c].se : c;
 			const o = document.createElement("option");
 			o.value = c;
 			o.text = name;
 			countryOptions.push(o);
-
+			
+			// Om det finns ett alternativt namn läggs det också till
 			if (Country[c].hasOwnProperty("alt")) {
 				const o2 = document.createElement("option");
 				o2.value = c;
@@ -26,31 +29,45 @@ class Controller {
 			}
 		}
 		// Sortera och sätt in i HTMLen
-		countryOptions.sort((a, b) => a.text.localeCompare(b.text)).forEach(option => {
-			countrySwitch.appendChild(option);
-		});
-
+		countryOptions
+			.sort((a, b) => a.text.localeCompare(b.text))
+			.forEach(option => {
+				countrySwitch.appendChild(option);
+			});
+		
+		// "submitButton" är knappen det står "Nästa" på.
+		// När den klickas på går vi till nästa steg, att ställa fäljdfrågor.
 		document.getElementById("submitButton").addEventListener("click", _ => {
-			Controller.showTests();
+			Controller.showTests(null); // Rensa bort testerna vi visar
 			Controller.currentTests = null;
 			Controller.questionIndices = null;
 
-			let age = Math.floor(document.getElementById("age").value * 1);
-			document.getElementById("age").value = age;
+			// Alla åldrar används om man inte valt något.
+			let ageVal = document.getElementById("age").value;
+			let age = any;
+			if (ageVal !== "") {
+				age = Math.floor(ageVal * 1);
+				document.getElementById("age").value = age;
+			}
 
+			// Båda könen används om man inte valt något
 			let gender = document.getElementById("male").checked ? male : (document.getElementById("female").checked ? female : any);
 
+			// Alla länder används om man inte valt något
 			let country = document.getElementById("country").value;
 			if (!country)
 				country = any;
 			else
 				country = Country[country];
 
+			// TBC-risk tolkas som både ja och nej om man inte valt något
 			let tbc_risk = document.getElementById("risk_yes").checked ? true : (document.getElementById("risk_no").checked ? false : any);
 
 			Controller.showAdditionalQuestions(Controller.findTests(age, gender, country, tbc_risk));
 		});
 
+		// "submitQuestions" är knappen det står "Visa resultat" på.
+		// När man trycker på den filtreras testen utifrån eventuella frågesvar
 		document.getElementById("submitQuestions").addEventListener("click", _ => {
 			const additionalQuestionsDiv = document.getElementById("additionalQuestions");
 
@@ -99,6 +116,7 @@ class Controller {
 		});
 	}
 
+	// Hittar alla tester som matchar angivna uppgifter om patienten
 	static findTests(age, gender, country, tbc_risk) {
 		return test_conditions.filter(tc => {
 			if (tc.age !== any) {
@@ -124,6 +142,7 @@ class Controller {
 		});
 	}
 
+	// Skapar en lista med frågorna som hör till de utvalda testen
 	static showAdditionalQuestions(tests) {
 		const additionalQuestionsDiv = document.getElementById("additionalQuestions");
 		Controller.currentTests = tests;
@@ -151,6 +170,9 @@ class Controller {
 					question.answerResults.push(res);
 				}
 
+				// För att undvika att ställa samma fråga flera gånger
+				// kollar vi om den redan finns med. I så fall mappar vi istället
+				// denna fråga till den befintliga.
 				let questionIndex = questions.findIndex(
 					q => q.prompt === question.prompt
 						 && q.answers.every((v, i) => v === question.answers[i])
@@ -182,7 +204,8 @@ class Controller {
 		else {
 			document.getElementById("noQuestions").classList.add("hide");
 			submitQuestionsButton.setAttribute("disabled", true);
-
+			
+			// Rendra varje fråga till HTMLen
 			questions.forEach((q, qi) => {
 				const qDiv = questionTemplate.cloneNode(true);
 				qDiv.classList.remove("hide");
@@ -220,12 +243,14 @@ class Controller {
 		}
 	}
 
+	// Dessa fält har specialbetydelser. Övriga fält kan användas till svarsalternativ.
 	static PREDEFINED_FIELDS = ["age", "gender", "country", "tbc_risk", "alert", "name", "purpose", "question", "question-info"];
 	static getAnswerKeys(test) {
 		return Object.keys(test).filter(key => !this.PREDEFINED_FIELDS.includes(key));
 	}
 
-	static showTests(tests = null) {
+	// Rendrar de utvalda testerna till HTMLen (och tar bort gamla)
+	static showTests(tests) {
 		const testsDiv = document.getElementById("tests");
 		const testDivs = testsDiv.getElementsByClassName("test");
 		const testTemplate = testDivs.item(0);
@@ -258,8 +283,12 @@ class Controller {
 		}
 	}
 
+	// Formaterar textblock (framförallt question-info, alert och purpose)
+	// för att tillåta punktlistor med olika nivåer
 	static formatTextBody(text, element) {
 		element.innerHTML = "";
+		if (!text)
+			return;
 		const lines = text.trim().split("\n");
 		if (lines.length === 1)
 			element.textContent = lines[0];
@@ -297,6 +326,7 @@ class Controller {
 		}
 	}
 
+	// Går igenom alla frågor och kollar om ett alternativ är valt för samtliga
 	static allQuestionsAnswered(additionalQuestionsDiv) {
 		if (!Controller.currentTests || Controller.currentTests.length === 0)
 			return false;
