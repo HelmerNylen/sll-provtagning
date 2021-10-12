@@ -6,6 +6,50 @@ class Controller {
 
 	static currentTests = null;
 	static questionIndices = null;
+	static getStandardAnswers() {
+		// Plocka ut val av ålder
+		let ageVal = document.getElementById("age").value;
+		let age = any;
+		if (ageVal !== "") {
+			age = Math.floor(ageVal * 1);
+			document.getElementById("age").value = age;
+		} else
+			age = null;
+
+		// Plocka ut val av kön
+		let gender;
+		if (document.getElementById("male").checked)
+			gender = male;
+		else if (document.getElementById("female").checked)
+			gender = female;
+		else
+			gender = null;
+
+		// Plocka ut valt land
+		let country = document.getElementById("country").value;
+		if (country)
+			country = Country[country];
+		else
+			country = null;
+
+		// Plocka ut val av TBC-risk
+		let tbc_risk;
+		if (document.getElementById("risk_yes").checked)
+			tbc_risk = true;
+		else if (document.getElementById("risk_no").checked)
+			tbc_risk = false;
+		else
+			tbc_risk = null;
+		
+		return [age, gender, country, tbc_risk];
+	}
+
+	static updateSubmitButtonVisibility() {
+		if (this.getStandardAnswers().some(value => value === null))
+			document.getElementById("submitButton").setAttribute("disabled", "true");
+		else
+			document.getElementById("submitButton").removeAttribute("disabled");
+	}
 
 	static begin() {
 		// Skapa dropdown-listan med länder
@@ -34,34 +78,39 @@ class Controller {
 			.forEach(option => {
 				countrySwitch.appendChild(option);
 			});
+
+		// Hantera av- och påslagning av Nästa-knappen
+		// Varje gång ett inputfält uppdateras kollar vi om de alla har värden
+		for (let id of ["age", "male", "female", "country", "risk_yes", "risk_no"]) {
+			document.getElementById(id).addEventListener("change", e => {
+				this.updateSubmitButtonVisibility();
+			});
+		}
+		document.getElementById("submitButton").setAttribute("disabled", "true");
 		
 		// "submitButton" är knappen det står "Nästa" på.
-		// När den klickas på går vi till nästa steg, att ställa fäljdfrågor.
+		// När den klickas på går vi till nästa steg, att ställa följdfrågor.
 		document.getElementById("submitButton").addEventListener("click", _ => {
 			Controller.showTests(null); // Rensa bort testerna vi visar
 			Controller.currentTests = null;
 			Controller.questionIndices = null;
 
-			// Alla åldrar används om man inte valt något.
-			let ageVal = document.getElementById("age").value;
-			let age = any;
-			if (ageVal !== "") {
-				age = Math.floor(ageVal * 1);
-				document.getElementById("age").value = age;
-			}
+			let abort = message => {
+				alert(message);
+				throw new Error(message);
+			};
 
-			// Båda könen används om man inte valt något
-			let gender = document.getElementById("male").checked ? male : (document.getElementById("female").checked ? female : any);
-
-			// Alla länder används om man inte valt något
-			let country = document.getElementById("country").value;
-			if (!country)
-				country = any;
-			else
-				country = Country[country];
-
-			// TBC-risk tolkas som både ja och nej om man inte valt något
-			let tbc_risk = document.getElementById("risk_yes").checked ? true : (document.getElementById("risk_no").checked ? false : any);
+			let [age, gender, country, tbc_risk] = this.getStandardAnswers();
+			// Den här funktionen bör inte ens anropas om inte allt är ifyllt,
+			// men för säkerhets skull kollar vi allt ändå
+			if (age === null)
+				abort("Du måste ange personens ålder");
+			if (gender === null)
+				abort("Du måste ange personens kön");
+			if (country === null)
+				abort("Du måste ange ett land");
+			if (tbc_risk === null)
+				abort("Du måste ange ifall personen kommer från en riskmiljö för tuberkulos");
 
 			Controller.showAdditionalQuestions(Controller.findTests(age, gender, country, tbc_risk));
 		});
